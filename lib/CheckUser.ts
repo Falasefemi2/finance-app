@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 export async function CheckUser() {
   try {
     const user = await currentUser();
-    // console.log(user);
+    console.log(user);
 
     if (!user) {
       return null;
