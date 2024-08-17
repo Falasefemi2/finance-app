@@ -50,8 +50,6 @@ async function addTransaction(formData: FormData): Promise<TransactionResult> {
       .values({
         text,
         amount,
-        id: userId,
-        // userId,
         userId,
       })
       .returning();

@@ -13,7 +13,7 @@ import {
 const pgTable = pgTableCreator((name) => `finance_${name}`);
 
 export const User = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: varchar("id", { length: 255 }).primaryKey(),
   clerkId: text("clerk_id").notNull().unique(),
   email: text("email").notNull(),
   profileImageUrl: text("profile_image_url").notNull(),
@@ -28,9 +28,12 @@ export const Transaction = pgTable("transactions", {
   // userId: uuid("user_id")
   //   .notNull()
   //   .references(() => User.id),
-  userId: text("user_id")
+  // userId: text("user_id")
+  //   .notNull()
+  //   .references(() => User.clerkId), // Changed to text
+  userId: varchar("user_id", { length: 255 })
     .notNull()
-    .references(() => User.clerkId), // Changed to text
+    .references(() => User.id),
   text: text("text").notNull(),
   amount: integer("amount").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),

@@ -27,6 +27,7 @@ export async function CheckUser() {
     } else {
       // User doesn't exist, create a new one
       const newUser = {
+        id: user.id,
         clerkId: user.id,
         email: user.emailAddresses[0]?.emailAddress ?? "",
         profileImageUrl: user.imageUrl ?? "",
