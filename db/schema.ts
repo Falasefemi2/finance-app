@@ -25,9 +25,12 @@ export const User = pgTable("users", {
 
 export const Transaction = pgTable("transactions", {
   id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id")
+  // userId: uuid("user_id")
+  //   .notNull()
+  //   .references(() => User.id),
+  userId: text("user_id")
     .notNull()
-    .references(() => User.id),
+    .references(() => User.clerkId), // Changed to text
   text: text("text").notNull(),
   amount: integer("amount").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
