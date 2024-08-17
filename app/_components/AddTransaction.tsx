@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 import {
     Form,
     FormControl,
@@ -23,16 +24,33 @@ const formSchema = z.object({
     amount: z.number().min(0.01).max(10000),
 });
 export default function AddTransaction() {
+    // const clientAction = async (formData: FormData) => {
+    //     const { data, error } = await addTransaction(formData)
+
+    //     if (error) {
+    //         toast.error(error)
+    //         return;
+    //     } else {
+    //         toast.success("Transaction added successfully.")
+    //         console.log(data);
+
+    //     }
+    // };
     const clientAction = async (formData: FormData) => {
-        const { data, error } = await addTransaction(formData)
+        try {
+            const { data, error } = await addTransaction(formData)
 
-        if (error) {
-            console.error(error);
-            return;
-        } else {
-            alert("Transaction added successfully")
-            console.log(data);
-
+            if (error) {
+                console.error("Error from server:", error);
+                toast.error(error)
+                return;
+            } else {
+                toast.success("Transaction added successfully.")
+                console.log("Transaction data:", data);
+            }
+        } catch (err) {
+            console.error("Unexpected error:", err);
+            toast.error("An unexpected error occurred");
         }
     };
 

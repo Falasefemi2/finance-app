@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "./_components/Header";
+import { Toaster } from "@/components/ui/sonner"
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +22,8 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
+          <Toaster />
           <Header />
-          {/* <main className="my-[30px] mx-auto w-[350px] flex flex-col items-center justify-center">
-            {children}
-          </main> */}
           <main className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
             <div className="max-w-3xl mx-auto">
               <div className="bg-white shadow-lg rounded-lg p-6 sm:p-8 md:p-10">
