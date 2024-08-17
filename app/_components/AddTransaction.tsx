@@ -24,18 +24,6 @@ const formSchema = z.object({
     amount: z.number().min(0.01).max(10000),
 });
 export default function AddTransaction() {
-    // const clientAction = async (formData: FormData) => {
-    //     const { data, error } = await addTransaction(formData)
-
-    //     if (error) {
-    //         toast.error(error)
-    //         return;
-    //     } else {
-    //         toast.success("Transaction added successfully.")
-    //         console.log(data);
-
-    //     }
-    // };
     const clientAction = async (formData: FormData) => {
         try {
             const { data, error } = await addTransaction(formData)

@@ -48,8 +48,10 @@ async function addTransaction(formData: FormData): Promise<TransactionResult> {
     const [transactionData] = await db
       .insert(Transaction)
       .values({
-        text: text,
-        amount: amount,
+        text,
+        amount,
+        id: userId,
+        // userId,
         userId,
       })
       .returning();
