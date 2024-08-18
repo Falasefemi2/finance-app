@@ -24,25 +24,6 @@ const formSchema = z.object({
     amount: z.number().min(0.01).max(10000),
 });
 export default function AddTransaction() {
-    const clientAction = async (formData: FormData) => {
-        try {
-            const { data, error } = await addTransaction(formData)
-
-            if (error) {
-                console.error("Error from server:", error);
-                toast.error(error)
-                return;
-            } else {
-                toast.success("Transaction added successfully.")
-                console.log("Transaction data:", data);
-            }
-        } catch (err) {
-            console.error("Unexpected error:", err);
-            toast.error("An unexpected error occurred");
-        }
-    };
-
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -55,7 +36,22 @@ export default function AddTransaction() {
         const formData = new FormData();
         formData.append('text', data.text);
         formData.append('amount', data.amount.toString());
-        await clientAction(formData);
+
+        try {
+            const result = await addTransaction(formData);
+
+            if (result.error) {
+                console.error("Error from server:", result.error);
+                toast.error(result.error);
+            } else if (result.data) {
+                toast.success("Transaction added successfully.");
+                console.log("Transaction data:", result.data);
+                form.reset(); // Reset the form after successful submission
+            }
+        } catch (err) {
+            console.error("Unexpected error:", err);
+            toast.error("An unexpected error occurred");
+        }
     };
     return (
         <>
@@ -69,10 +65,10 @@ export default function AddTransaction() {
                             <FormItem>
                                 <FormLabel>Text</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="text" {...field} />
+                                    <Input placeholder="Enter transaction description" {...field} />
                                 </FormControl>
                                 <FormDescription>
-                                    This is your public display name.
+                                    Enter a brief description of the transaction.
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>
@@ -88,7 +84,7 @@ export default function AddTransaction() {
                                     <Input
                                         type="number"
                                         step="0.01"
-                                        placeholder="Amount"
+                                        placeholder="Enter amount"
                                         {...field}
                                         onChange={(e) => field.onChange(parseFloat(e.target.value))}
                                     />
@@ -101,9 +97,10 @@ export default function AddTransaction() {
                         )}
                     />
 
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Add Transaction</Button>
                 </form>
             </Form>
+
         </>
     )
 }

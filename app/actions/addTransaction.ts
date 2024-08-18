@@ -8,8 +8,11 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
 interface TransactionData {
+  id: string;
   text: string;
   amount: number;
+  userId: string;
+  createdAt: Date;
 }
 
 interface TransactionResult {
@@ -33,7 +36,7 @@ async function addTransaction(formData: FormData): Promise<TransactionResult> {
   }
 
   const text: string = textValue.toString();
-  const amount: number = parseFloat(amountValue.toString());
+  const amount: number = Math.round(parseFloat(amountValue.toString()) * 100); // Store as cents
 
   // get logged user
   const { userId } = auth();
@@ -55,7 +58,7 @@ async function addTransaction(formData: FormData): Promise<TransactionResult> {
       .returning();
 
     revalidatePath("/");
-    return { data: transactionData };
+    return { data: transactionData as TransactionData };
   } catch (error) {
     console.error("Error adding transaction:", error);
     // Log the full error object
