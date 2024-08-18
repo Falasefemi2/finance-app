@@ -22,6 +22,13 @@
       "when": 1723926231657,
       "tag": "0002_windy_grim_reaper",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1723978959472,
+      "tag": "0003_neat_hitman",
+      "breakpoints": true
     }
   ]
 }
