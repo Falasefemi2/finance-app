@@ -101,8 +101,23 @@ export default function AddTransaction() {
                 </form>
             </Form> */}
             <form action={addTransaction}>
-                <input type="text" name="text" />
-                <input type="number" name="amount" />
+                <label htmlFor='text'>Text</label>
+                <input
+                    type='text'
+                    id='text'
+                    name='text'
+                    placeholder='Enter text...'
+                />
+                <label htmlFor='amount'>
+                    Amount <br /> (negative - expense, positive - income)
+                </label>
+                <input
+                    type='number'
+                    name='amount'
+                    id='amount'
+                    placeholder='Enter amount...'
+                    step='0.01'
+                />
                 <button type="submit">Add Transaction</button>
             </form>
 
