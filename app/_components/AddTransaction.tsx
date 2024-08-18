@@ -24,39 +24,39 @@ const formSchema = z.object({
     amount: z.number().min(0.01).max(10000),
 });
 export default function AddTransaction() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            text: "",
-            amount: 0,
-        },
-    });
+    // const form = useForm<z.infer<typeof formSchema>>({
+    //     resolver: zodResolver(formSchema),
+    //     defaultValues: {
+    //         text: "",
+    //         amount: 0,
+    //     },
+    // });
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const formData = new FormData();
-        formData.append('text', data.text);
-        formData.append('amount', data.amount.toString());
+    // const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    //     const formData = new FormData();
+    //     formData.append('text', data.text);
+    //     formData.append('amount', data.amount.toString());
 
-        try {
-            const result = await addTransaction(formData);
+    //     try {
+    //         const result = await addTransaction(formData);
 
-            if (result.error) {
-                console.error("Error from server:", result.error);
-                toast.error(result.error);
-            } else if (result.data) {
-                toast.success("Transaction added successfully.");
-                console.log("Transaction data:", result.data);
-                form.reset(); // Reset the form after successful submission
-            }
-        } catch (err) {
-            console.error("Unexpected error:", err);
-            toast.error("An unexpected error occurred");
-        }
-    };
+    //         if (result.error) {
+    //             console.error("Error from server:", result.error);
+    //             toast.error(result.error);
+    //         } else if (result.data) {
+    //             toast.success("Transaction added successfully.");
+    //             console.log("Transaction data:", result.data);
+    //             form.reset(); // Reset the form after successful submission
+    //         }
+    //     } catch (err) {
+    //         console.error("Unexpected error:", err);
+    //         toast.error("An unexpected error occurred");
+    //     }
+    // };
     return (
         <>
             <h3>Add transaction</h3>
-            <Form {...form}>
+            {/* <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <FormField
                         control={form.control}
@@ -99,7 +99,12 @@ export default function AddTransaction() {
 
                     <Button type="submit">Add Transaction</Button>
                 </form>
-            </Form>
+            </Form> */}
+            <form action={addTransaction}>
+                <input type="text" name="text" />
+                <input type="number" name="amount" />
+                <button type="submit">Add Transaction</button>
+            </form>
 
         </>
     )
